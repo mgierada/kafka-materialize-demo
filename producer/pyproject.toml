@@ -1,0 +1,8 @@
+[project]
+name = "kafka-producer"
+version = "0.1.0"
+description = "Kafka event producer for user events"
+requires-python = ">=3.11"
+dependencies = [
+    "kafka-python>=2.0.2",
+]
