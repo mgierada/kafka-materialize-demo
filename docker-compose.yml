@@ -48,7 +48,6 @@ services:
         condition: service_healthy
     ports:
       - "6875:6875"
-    command: --workers 1
     networks:
       - kafka-network
     healthcheck:

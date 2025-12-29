@@ -3,8 +3,7 @@
 
 -- Create a connection to Kafka
 CREATE CONNECTION kafka_connection TO KAFKA (
-    BROKER 'kafka:29092',
-    SECURITY PROTOCOL = 'PLAINTEXT'
+    BROKER 'kafka:29092'
 );
 
 -- Create a source from the Kafka topic

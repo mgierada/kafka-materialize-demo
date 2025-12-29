@@ -111,19 +111,21 @@ help: ##@ (Default) Print listing of key targets with their descriptions
 ##@ Local virtual environment & container builds
 ##----------------------------------------------------------------------------
 
+PROJECT_DIR := producer
+
 .PHONY: lock
 lock: ##@ lock the dependencies
-	@uv lock
+	@uv lock --project $(PROJECT_DIR)
 
 .PHONY: dep
 dep: ##@ install all project dependencies including dev-dependencies
-	@uv venv --python=$(PYTHON_VERSION) --clear
-	@uv sync --all-groups
+	@uv venv --python=$(PYTHON_VERSION) --clear --project $(PROJECT_DIR)
+	@uv sync --all-groups --project $(PROJECT_DIR)
 
 .PHONY: dep-no-dev
 dep-no-dev: ##@ install project dependencies without dev-dependencies
-	@uv venv --python=$(PYTHON_VERSION) --clear
-	@uv sync --no-dev
+	@uv venv --python=$(PYTHON_VERSION) --clear --project $(PROJECT_DIR)
+	@uv sync --no-dev --project $(PROJECT_DIR)
 
 .PHONY: install
 # An alias for dep
