@@ -55,13 +55,15 @@ Press Ctrl+C to exit logs.
 Connect to Materialize and create sources and views:
 
 ```bash
-docker exec -i materialize psql -U materialize -h localhost -p 6875 < materialize-setup.sql
+docker exec -i materialize psql -U materialize -h localhost -p 6875 -d materialize < materialize-setup.sql
 ```
 
 This creates:
-- A Kafka connection
+- A Kafka connection with PLAINTEXT security protocol
 - A source reading from the `user_events` topic
 - Multiple materialized views for different analytics
+
+Note: The setup uses the latest version of Materialize which includes improved permissions and security configurations.
 
 ## Querying Data
 

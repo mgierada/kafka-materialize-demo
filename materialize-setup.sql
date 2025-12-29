@@ -1,9 +1,20 @@
 -- Materialize Setup Script for Kafka Integration
--- Run this after starting all services with: docker exec -i materialize psql -U materialize -h localhost -p 6875
+-- Run this after starting all services with: docker exec -i materialize psql -U materialize -h localhost -p 6875 -d materialize
+
+-- Drop existing objects if they exist (for clean setup)
+DROP MATERIALIZED VIEW IF EXISTS recent_events CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS page_view_stats CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS purchase_analytics CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS user_activity_summary CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS event_counts_by_type CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS user_events CASCADE;
+DROP SOURCE IF EXISTS user_events_source CASCADE;
+DROP CONNECTION IF EXISTS kafka_connection CASCADE;
 
 -- Create a connection to Kafka
-CREATE CONNECTION kafka_connection TO KAFKA (
-    BROKER 'kafka:29092'
+CREATE CONNECTION IF NOT EXISTS kafka_connection TO KAFKA (
+    BROKER 'kafka:29092',
+    SECURITY PROTOCOL = 'PLAINTEXT'
 );
 
 -- Create a source from the Kafka topic
@@ -87,4 +98,4 @@ SELECT
         ELSE event_type
     END AS detail
 FROM user_events
-WHERE timestamp > NOW() - INTERVAL '5 minutes';
+WHERE mz_now() <= timestamp + INTERVAL '5 minutes';
