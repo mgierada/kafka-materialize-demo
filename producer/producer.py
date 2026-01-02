@@ -9,9 +9,8 @@ from kafka.errors import KafkaError
 
 KAFKA_BOOTSTRAP_SERVERS: str = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 KAFKA_TOPIC: str = os.getenv("KAFKA_TOPIC", "user_events")
-MESSAGES_PER_MINUTE: int = int(os.getenv("MESSAGES_PER_MINUTE", "30"))
+MESSAGES_PER_MINUTE: int = int(os.getenv("MESSAGES_PER_MINUTE", 30))
 
-# Calculate sleep time between messages
 SLEEP_TIME = 60.0 / MESSAGES_PER_MINUTE
 
 PAGES: list[str] = [
