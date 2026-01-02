@@ -113,7 +113,8 @@ SELECT
     COUNT(*) AS event_count
 FROM user_events
 GROUP BY DATE_TRUNC('minute', timestamp), event_type
-ORDER BY minute DESC;
+ORDER BY minute DESC
+LIMIT 10;
 ```
 
 **Top users by purchase amount:**
@@ -136,6 +137,8 @@ Materialize supports `SUBSCRIBE` for real-time updates:
 ```sql
 COPY (SUBSCRIBE (SELECT event_type, COUNT(*) FROM user_events GROUP BY event_type)) TO STDOUT;
 ```
+
+COPY (SUBSCRIBE (SELECT * FROM user_activity_summary ORDER BY total_events DESC)) TO STDOUT;
 
 This will continuously stream updates as new events arrive. Press Ctrl+C to stop.
 
